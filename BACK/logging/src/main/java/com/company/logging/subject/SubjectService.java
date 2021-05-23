@@ -1,6 +1,8 @@
 package com.company.logging.subject;
 
-import com.company.logging.group.Group;
+import com.company.logging.auxiliary.StudentSubjectMarks;
+import com.company.logging.auxiliary.StudentSubjectMarksRepository;
+import com.company.logging.marks.Marks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +14,13 @@ import java.util.Optional;
 public class SubjectService {
 
     private final SubjectRepository subjectRepository;
+    private final StudentSubjectMarksRepository studentSubjectMarksRepository;
 
     @Autowired
-    public SubjectService(SubjectRepository subjectRepository){
+    public SubjectService(SubjectRepository subjectRepository,
+                          StudentSubjectMarksRepository studentSubjectMarksRepository){
         this.subjectRepository = subjectRepository;
+        this.studentSubjectMarksRepository = studentSubjectMarksRepository;
     }
 
     public List<Subject> getSubjects(){
@@ -54,6 +59,7 @@ public class SubjectService {
 
     public void addNewSubject(Subject subject){
         subjectRepository.save(subject);
+        saveMarks(subject.getMarks());
     }
 
     public void updateSubject(Long oldId, Subject subject){
@@ -73,5 +79,10 @@ public class SubjectService {
         } else {
             throw new IllegalStateException("No subject with such id");
         }
+    }
+
+    private void saveMarks(Marks marks){
+        List<StudentSubjectMarks> studentSubjectMarks = studentSubjectMarksRepository.selectBySubjectId(sub)
+        studentSubjectMarksRepository.saveMarks();
     }
 }

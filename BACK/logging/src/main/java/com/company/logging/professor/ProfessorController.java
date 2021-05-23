@@ -1,7 +1,5 @@
 package com.company.logging.professor;
 
-import com.company.logging.professor.Professor;
-import com.company.logging.professor.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
