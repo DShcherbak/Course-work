@@ -35,7 +35,7 @@ public class StudentController {
     }
 
     @PatchMapping
-    public void updateStudent(@RequestParam(name = "id", required = false) Long oldId,
+    public void updateStudent(@RequestParam(name = "id") Long oldId,
                               @RequestBody Student student){
         studentService.updateStudent(oldId, student);
     }

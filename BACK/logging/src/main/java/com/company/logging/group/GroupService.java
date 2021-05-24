@@ -58,7 +58,11 @@ public class GroupService {
         var o_group = groupRepository.findById(oldId);
         if(o_group.isPresent()){
             var oldGroup = o_group.get();
+            if(group.getId() == null){
+                group.setId(oldId);
+            }
             oldGroup.setGroup(group);
+            groupRepository.save(group);
         } else {
             throw new IllegalStateException("No group with id : " + oldId);
         }

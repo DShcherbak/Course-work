@@ -75,8 +75,12 @@ public class SubjectService {
         var o_subject = subjectRepository.findById(oldId);
         if(o_subject.isPresent()){
             var oldSubject = o_subject.get();
+            if(subject.getId() == null){
+                subject.setId(oldId);
+            }
             oldSubject.setSubject(subject);
             saveMarks(subject);
+            subjectRepository.save(subject);
         } else {
             throw new IllegalStateException("No group with id : " + oldId);
         }

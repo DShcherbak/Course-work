@@ -54,7 +54,11 @@ public class ProfessorService {
         var o_professor = professorRepository.findById(oldId);
         if(o_professor.isPresent()){
             var oldProfessor = o_professor.get();
+            if(professor.getId() == null){
+                professor.setId(oldId);
+            }
             oldProfessor.setProfessor(professor);
+            professorRepository.save(oldProfessor);
         } else {
             throw new IllegalStateException("No professor with id : " + oldId);
         }

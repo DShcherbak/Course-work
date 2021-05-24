@@ -51,7 +51,11 @@ public class StudentService {
         var o_student = studentRepository.findById(oldId);
         if(o_student.isPresent()){
             var oldStudent = o_student.get();
+            if(student.getId() == null){
+                student.setId(oldId);
+            }
             oldStudent.setStudent(student);
+            studentRepository.save(oldStudent);
         } else {
             throw new IllegalStateException("No group with id : " + oldId);
         }
