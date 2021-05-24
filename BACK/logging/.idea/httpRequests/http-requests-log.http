@@ -1,3 +1,39 @@
+GET http://localhost:8080/api/subject
+
+<> 2021-05-24T144048.200.json
+
+###
+
+PATCH http://localhost:8080/api/subject?id=3
+Content-Type: application/json
+
+{
+  "name": "General algebra",
+  "professorId": 3,
+  "marks": {
+    "columnsNames": [
+      "Lab",
+      "Колоквіум"
+    ],
+    "studentsMarks":  {
+      "1": [
+        38.5,
+        40.0
+      ],
+      "2": [
+        35.5,
+        40.0
+      ],
+      "3": [
+        20.0,
+        30.0
+      ]
+    }
+  }
+}
+
+###
+
 GET http://localhost:8080/api/professor
 
 <> 2021-05-24T143724.200.json
@@ -739,70 +775,6 @@ Content-Type: application/json
 }
 
 <> 2021-05-24T114437.500.json
-
-###
-
-PATCH http://localhost:8080/api/subject?id=3
-Content-Type: application/json
-
-{
-  "name": "General algebra",
-  "professorId": 3,
-  "marks": {
-    "columnsNames": [
-      "Lab",
-      "Колоквіум"
-    ],
-    "studentsMarks":  {
-      "1": [
-        38.5,
-        40.0
-      ],
-      "2": [
-        35.5,
-        40.0
-      ],
-      "3": [
-        20.0,
-        30.0
-      ]
-    }
-  }
-}
-
-<> 2021-05-24T114159.500.json
-
-###
-
-PATCH http://localhost:8080/api/subject?id=3
-Content-Type: application/json
-
-{
-  "name": "General algebra",
-  "professorId": 3,
-  "marks": {
-    "columnsNames": [
-      "Lab",
-      "Колоквіум"
-    ],
-    "studentsMarks":  {
-      "1": [
-        38.5,
-        40.0
-      ],
-      "2": [
-        35.5,
-        40.0
-      ],
-      "3": [
-        20.0,
-        30.0
-      ]
-    }
-  }
-}
-
-<> 2021-05-24T114116.500.json
 
 ###
 
