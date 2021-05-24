@@ -84,5 +84,6 @@ public class Subject {
         this.name = subject.getName();
         this.professorId = subject.getProfessorId();
         this.marks = subject.getMarks();
+        this.marks.setSubjectId(subject.getId());
     }
 }

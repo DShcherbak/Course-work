@@ -38,10 +38,22 @@ public class Marks {
         return taskNames;
     }
 
+    public Long getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Long subjectId) {
+        this.subjectId = subjectId;
+    }
+
     public Marks(Long subjectId, List<String> columnsNames, Map<Long, ArrayList<Double>> studentsMarks){
         this.subjectId = subjectId;
         this.columnsNames = columnsNames;
         this.studentsMarks = studentsMarks;
+    }
+
+    public Marks(Long subjectId) {
+        this.subjectId = subjectId;
     }
 
     public Marks() {

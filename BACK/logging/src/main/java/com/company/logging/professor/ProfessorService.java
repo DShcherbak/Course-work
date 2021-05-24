@@ -47,6 +47,7 @@ public class ProfessorService {
     }
 
     public void addNewProfessor(Professor professor){
+        professor.setRole("UNKNOWN");
         professorRepository.save(professor);
     }
 
@@ -64,6 +65,37 @@ public class ProfessorService {
         }
     }
 
+    public void resetProfessorsRole(Long professorId, String role){
+        switch (role){
+            case "DECLINED" -> {
+                var o_professor = professorRepository.findById(professorId);
+                if(o_professor.isPresent()) {
+                    var professor = o_professor.get();
+                    if(professor.getRole().equals("UNKNOWN")) {
+                        professorRepository.deleteById(professorId);
+                        professorRepository.save(professor);
+                    }
+                }
+            }
+            case "ACCEPTED" -> {
+                var o_professor = professorRepository.findById(professorId);
+                if(o_professor.isPresent()) {
+                    var professor = o_professor.get();
+                    professor.setRole("PROFESSOR");
+                    professorRepository.save(professor);
+                }
+            }
+            case "ADMIN" -> {
+                var o_professor = professorRepository.findById(professorId);
+                if(o_professor.isPresent()) {
+                    var professor = o_professor.get();
+                    professor.setRole("ADMIN");
+                    professorRepository.save(professor);
+                }
+            }
+        }
+    }
+
     public void deleteProfessorById(Long id){
         var exists = professorRepository.existsById(id);
         if(exists){
@@ -73,4 +105,7 @@ public class ProfessorService {
         }
     }
 
+    public List<Professor> getProfessorRequests() {
+        return professorRepository.getAllProfessorRequests();
+    }
 }

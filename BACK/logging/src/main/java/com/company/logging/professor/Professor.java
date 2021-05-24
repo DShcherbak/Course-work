@@ -26,6 +26,12 @@ public class Professor {
 
     }
 
+    public Professor(String name, String email) {
+        this.name = name;
+        this.email = email;
+        this.role = "UNKNOWN";
+    }
+
     public Professor(String name, String email, String role) {
         this.name = name;
         this.email = email;
@@ -78,7 +84,6 @@ public class Professor {
         this.id = professor.getId();
         this.name = professor.getName();
         this.email = professor.getEmail();
-        this.role = professor.getRole();
     }
 }
 

@@ -120,7 +120,7 @@ public class SubjectService {
     }
 
     public void getMarks(Subject subject){
-        Marks marks = new Marks();
+        Marks marks = new Marks(subject.getId());
         ArrayList<String> columnsNames = new ArrayList<>();
         var taskNames = taskNamesRepository.getBySubjectIdOrderedByNumber(subject.getId());
         for(var task : taskNames){

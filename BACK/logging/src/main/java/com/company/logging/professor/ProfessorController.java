@@ -27,6 +27,17 @@ public class ProfessorController {
         }
     }
 
+    @PatchMapping(path = "changeRole")
+    public void changeRoleProfessor(@RequestParam(name = "id") Long professorId,
+                                 @RequestParam(name = "role") String newRole){
+        professorService.resetProfessorsRole(professorId, newRole);
+    }
+
+    @GetMapping(path = "requests")
+    public List<Professor> getProfessorRequests(){
+        return professorService.getProfessorRequests();
+    }
+
     @PostMapping
     public void registerProfessor(@RequestBody Professor professor){
         professorService.addNewProfessor(professor);
