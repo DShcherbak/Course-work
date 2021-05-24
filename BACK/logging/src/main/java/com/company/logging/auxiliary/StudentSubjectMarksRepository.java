@@ -2,6 +2,7 @@ package com.company.logging.auxiliary;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,4 +12,12 @@ import java.util.List;
 public interface StudentSubjectMarksRepository extends JpaRepository<StudentSubjectMarks, Long> {
     @Query("SELECT ssm FROM StudentSubjectMarks ssm WHERE ssm.subjectId = ?1")
     List<StudentSubjectMarks> selectBySubjectId(Long subjectId);
+
+    void deleteAllBySubjectId(Long id);
+
+    @Query("SELECT ssm.studentId FROM StudentSubjectMarks ssm where ssm.subjectId = ?1")
+    List<Long> getStudentBySubjectId(Long subjectId);
+
+    @Query("SELECT ssm FROM StudentSubjectMarks ssm WHERE ssm.subjectId = ?1")
+    List<StudentSubjectMarks> getMarksBySubject(Long subjectId);
 }
