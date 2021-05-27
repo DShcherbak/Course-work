@@ -17,6 +17,7 @@ public class GroupController {
     public GroupController(GroupService groupService){
         this.groupService = groupService;
     }
+
     @GetMapping
     public List<Group> getGroups(@RequestParam(name = "id", required = false) Long id,
                                  @RequestParam(name = "name", required = false) String name){
