@@ -1,9 +1,6 @@
 package com.company.logging.subject;
 
-import com.company.logging.auxiliary.StudentSubjectMarks;
-import com.company.logging.auxiliary.StudentSubjectMarksRepository;
-import com.company.logging.auxiliary.TaskNames;
-import com.company.logging.auxiliary.TaskNamesRepository;
+import com.company.logging.auxiliary.*;
 import com.company.logging.marks.Marks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,20 +14,23 @@ public class SubjectService {
     private final SubjectRepository subjectRepository;
     private final StudentSubjectMarksRepository studentSubjectMarksRepository;
     private final TaskNamesRepository taskNamesRepository;
+    private final SubjectGroupRepository subjectGroupRepository;
 
     @Autowired
     public SubjectService(SubjectRepository subjectRepository,
                           StudentSubjectMarksRepository studentSubjectMarksRepository,
-                          TaskNamesRepository taskNamesRepository){
+                          TaskNamesRepository taskNamesRepository,
+                          SubjectGroupRepository subjectGroupRepository){
         this.subjectRepository = subjectRepository;
         this.studentSubjectMarksRepository = studentSubjectMarksRepository;
         this.taskNamesRepository = taskNamesRepository;
+        this.subjectGroupRepository = subjectGroupRepository;
     }
 
     public List<Subject> getSubjects(){
         var subjects =  subjectRepository.findAll();
         for(var subject : subjects){
-            getMarks(subject);
+            completeSubject(subject);
         }
         return subjects;
     }
@@ -41,7 +41,7 @@ public class SubjectService {
             return new ArrayList<>();
         } else {
             Subject subject = o_subject.get();
-            getMarks(subject);
+            completeSubject(subject);
             return List.of(subject);
         }
     }
@@ -49,10 +49,17 @@ public class SubjectService {
     public List<Subject> getSubjectByProfessorId(Long id){
         List<Subject> subjects = subjectRepository.findAllByProfessorId(id);
         for(var subject : subjects){
-            getMarks(subject);
+            completeSubject(subject);
         }
         return subjects;
+    }
 
+    public List<Subject> getSubjectByGroupId(Long id){
+        List<Subject> subjects = subjectRepository.findAllByGroupId(id);
+        for(var subject : subjects){
+            completeSubject(subject);
+        }
+        return subjects;
     }
 
     public List<Subject> getSubjectByName(String name){
@@ -61,7 +68,7 @@ public class SubjectService {
             return new ArrayList<>();
         } else {
             Subject subject = o_subject.get();
-            getMarks(subject);
+            completeSubject(subject);
             return List.of(subject);
         }
     }
@@ -80,6 +87,7 @@ public class SubjectService {
             }
             oldSubject.setSubject(subject);
             saveMarks(subject);
+            saveGroups(subject);
             subjectRepository.save(subject);
         } else {
             throw new IllegalStateException("No group with id : " + oldId);
@@ -94,6 +102,11 @@ public class SubjectService {
         } else {
             throw new IllegalStateException("No subject with such id");
         }
+    }
+
+    private void completeSubject(Subject subject){
+        getMarks(subject);
+        getGroups(subject);
     }
 
 
@@ -143,6 +156,18 @@ public class SubjectService {
         marks.setStudentsMarks(studentMarks);
 
         subject.setMarks(marks);
+    }
+
+    public void saveGroups(Subject subject){
+        subjectGroupRepository.deleteAllBySubjectId(subject.getId());
+        ArrayList<SubjectGroup> subjectGroups = (ArrayList<SubjectGroup>) subject.getGroupIds().stream()
+                .map(id -> new SubjectGroup(subject.getId(), id)).collect(Collectors.toList());
+        subjectGroupRepository.saveAll(subjectGroups);
+    }
+    
+    public void getGroups(Subject subject){
+        ArrayList<Long> subjectGroups = (ArrayList<Long>) subjectGroupRepository.selectGroupsBySubjectId(subject.getId());
+        subject.setGroupIds(subjectGroups);
     }
 
 }

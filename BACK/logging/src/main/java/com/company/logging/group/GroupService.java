@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class GroupService {
@@ -51,6 +52,7 @@ public class GroupService {
     }
 
     public void addNewGroup(Group group){
+        registerNewStudents(group);
         groupRepository.save(group);
     }
 
@@ -62,7 +64,8 @@ public class GroupService {
                 group.setId(oldId);
             }
             oldGroup.setGroup(group);
-            groupRepository.save(group);
+            registerNewStudents(group);
+            groupRepository.save(oldGroup);
         } else {
             throw new IllegalStateException("No group with id : " + oldId);
         }
@@ -83,5 +86,12 @@ public class GroupService {
         students.stream()
                 .filter(student->student.getGroupId().equals(group.getId()))
                 .forEach(group::addStudent);
+    }
+
+    private void registerNewStudents(Group group){
+        var studentList = group.getStudents();
+        var newStudents = studentList.stream()
+                .filter(student -> student.getId() == null).collect(Collectors.toList());
+        studentRepository.saveAll(studentList);
     }
 }

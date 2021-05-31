@@ -4,6 +4,7 @@ import com.company.logging.marks.Marks;
 import com.fasterxml.jackson.annotation.JsonGetter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table
@@ -21,6 +22,8 @@ public class Subject {
     private Long id;
     private String name;
     private Long professorId;
+    @Transient
+    private List<Long> groupIds;
     @Transient
     private Marks marks;
 
@@ -79,11 +82,20 @@ public class Subject {
         this.marks = marks;
     }
 
+    public List<Long> getGroupIds() {
+        return groupIds;
+    }
+
+    public void setGroupIds(List<Long> groupIds){
+        this.groupIds = groupIds;
+    }
+
     public void setSubject(Subject subject){
         this.id = subject.getId();
         this.name = subject.getName();
         this.professorId = subject.getProfessorId();
         this.marks = subject.getMarks();
         this.marks.setSubjectId(subject.getId());
+        this.groupIds = subject.getGroupIds();
     }
 }

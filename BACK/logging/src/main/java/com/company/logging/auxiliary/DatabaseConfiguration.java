@@ -24,7 +24,8 @@ public class DatabaseConfiguration {
                                         SubjectRepository subjectRepository,
                                         ProfessorRepository professorRepository,
                                         TaskNamesRepository taskNamesRepository,
-                                        StudentSubjectMarksRepository studentSubjectMarksRepository){
+                                        StudentSubjectMarksRepository studentSubjectMarksRepository,
+                                        SubjectGroupRepository subjectGroupRepository){
         return args -> {
             Student Den = new Student("Denys", "@gmail", 1L, 2018L);
             Student Max = new Student("Max", "@gmail", 1L, 2018L);
@@ -84,6 +85,12 @@ public class DatabaseConfiguration {
             ssm.add(new StudentSubjectMarks(3L,2L,3L,15.0));
             ssm.add(new StudentSubjectMarks(3L,2L,3L,20.0));
             studentSubjectMarksRepository.saveAll(ssm);
+
+            ArrayList<SubjectGroup> sgs = new ArrayList<>();
+            sgs.add(new SubjectGroup(1L, 1L));
+            sgs.add(new SubjectGroup(2L, 1L));
+            sgs.add(new SubjectGroup(3L, 2L));
+            subjectGroupRepository.saveAll(sgs);
         };
     }
 }

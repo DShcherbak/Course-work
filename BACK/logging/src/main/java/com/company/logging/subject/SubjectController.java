@@ -21,9 +21,12 @@ public class SubjectController {
     @GetMapping
     public List<Subject> getSubjects(@RequestParam(name = "id", required = false) Long id,
                                      @RequestParam(name = "name", required = false) String name,
-                                     @RequestParam(name = "professorId", required = false) Long professorId){
-        if(id != null){
+                                     @RequestParam(name = "professorId", required = false) Long professorId,
+                                     @RequestParam(name = "groupId", required = false) Long groupId){
+        if(id != null) {
             return subjectService.getSubjectById(id);
+        }else if (groupId != null){
+            return subjectService.getSubjectByGroupId(groupId);
         } else if (professorId != null) {
             return subjectService.getSubjectByProfessorId(professorId);
         } else if (name != null) {
